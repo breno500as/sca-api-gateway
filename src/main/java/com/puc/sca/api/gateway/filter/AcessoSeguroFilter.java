@@ -6,8 +6,6 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -54,7 +52,7 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 		final String authorizationHeaderToken = request.getHeader(JwtUtil.AUTHORIZATION_HEADER);
 
 		if (authorizationHeaderToken == null) {
-			throw new BadCredentialsException("Missing Authentication Token");
+			throw new BadCredentialsException("Token de autenticação é obrigatório");
 		}
 
 		final String token = removeStart(authorizationHeaderToken, BEARER).trim();
