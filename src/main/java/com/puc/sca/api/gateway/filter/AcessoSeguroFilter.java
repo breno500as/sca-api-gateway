@@ -20,9 +20,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import com.puc.sca.api.gateway.util.JwtUtil;
 
 /**
- * Filtro reponsável por extrair o token da requisição para requisições
- * privadas.
- * 
+ * Filtro responsável por verificar se o web token foi repassado nas requisições privadas.
  * @author breno
  *
  */
@@ -43,6 +41,7 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 
 	public AcessoSeguroFilter(final RequestMatcher requiresAuth) {
 		super(requiresAuth);
+
 	}
 
 	@Override
@@ -57,14 +56,12 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 
 		final String token = removeStart(authorizationHeaderToken, BEARER).trim();
 
-
-		return JwtUtil.getUsuario(token, this.secretKey);
+		return JwtUtil.getUsuarioAutenticacaoToken(token, this.secretKey);
 
 	}
 
 	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-			Authentication authResult) throws IOException, ServletException {
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
 		SecurityContextHolder.getContext().setAuthentication(authResult);
 

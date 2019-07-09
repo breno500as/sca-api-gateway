@@ -32,7 +32,7 @@ public class LoginController {
 			return HttpStatus.UNAUTHORIZED.toString();
 		}
 
-		final String token = JwtUtil.getAuthToken(usuario.getId(), usuario.getPermissoes(), this.secretKey);
+		final String token = JwtUtil.buildAuthToken(usuario.getId(), usuario.getEmail(), usuario.getPermissoes(), this.secretKey);
 
 		return "{\"token\": \"" +token+ "\"}";
 	}

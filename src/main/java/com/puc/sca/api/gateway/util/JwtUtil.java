@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.jboss.logging.Logger;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -30,14 +30,14 @@ import com.puc.sca.api.gateway.entity.Usuario;
 public final class JwtUtil {
 
 	/**
-	 * Log.
-	 */
-	private static final Logger LOG = Logger.getLogger(JwtUtil.class);
-
-	/**
 	 * Id do usuário.
 	 */
 	private static final String ID_USUARIO = "usuario";
+
+	/**
+	 * Email do usuário.
+	 */
+	private static final String EMAIL_USUARIO = "email_usuario";
 
 	/**
 	 * Permissões.
@@ -66,14 +66,15 @@ public final class JwtUtil {
 	 * @return
 	 */
 
-	public static String getAuthToken(final Long id, final List<Permissao> permissoes, final String jwtSecretKey) {
+	public static String buildAuthToken(final Long id, final String email, final List<Permissao> permissoes,
+			final String jwtSecretKey) {
 		try {
 
 			final Calendar expiresAt = Calendar.getInstance();
 			expiresAt.add(Calendar.HOUR, 1);
 			final Algorithm algorithm = Algorithm.HMAC256(jwtSecretKey);
 
-			Builder jwtTokenBuilder = JWT.create().withClaim(ID_USUARIO, id)
+			final Builder jwtTokenBuilder = JWT.create().withClaim(ID_USUARIO, id).withClaim(EMAIL_USUARIO, email)
 					.withArrayClaim(PERMISSOES_USUARIO, permissoes.stream().map(permissao -> permissao.getDescricao())
 							.collect(Collectors.toList()).stream().toArray(String[]::new))
 					.withExpiresAt(expiresAt.getTime());
@@ -81,11 +82,9 @@ public final class JwtUtil {
 			return jwtTokenBuilder.sign(algorithm);
 
 		} catch (final IllegalArgumentException e) {
-			JwtUtil.LOG.error("Erro ao criar o token de autorização: " + e.getMessage(), e);
-			throw new RuntimeException("Erro ao criar o token de autorização");
+			throw new BadCredentialsException("Erro ao criar o token de autorização");
 		} catch (final JWTCreationException e) {
-			JwtUtil.LOG.error("Erro jwt ao criar o token de autorização: " + e.getMessage(), e);
-			throw new RuntimeException("Erro jwt ao criar o token de autorização");
+			throw new BadCredentialsException("Erro jwt ao criar o token de autorização");
 		}
 	}
 
@@ -106,12 +105,11 @@ public final class JwtUtil {
 			return verifier.verify(authorizationHeaderToken);
 
 		} catch (final IllegalArgumentException e) {
-			JwtUtil.LOG.error("Erro ao verificar o token de autorização: " + e.getMessage(), e);
-			throw new RuntimeException("Erro ao verificar o token de autorização");
+			throw new BadCredentialsException("Erro ao verificar o token de autorização");
 		} catch (final TokenExpiredException e) {
-			throw new RuntimeException("Token expirado");
+			throw new BadCredentialsException("Token expirado");
 		} catch (final JWTVerificationException e) {
-			throw new RuntimeException("Token inválido");
+			throw new BadCredentialsException("Token inválido");
 		}
 	}
 
@@ -123,31 +121,32 @@ public final class JwtUtil {
 	 * @return
 	 */
 
-	public static UsernamePasswordAuthenticationToken getUsuario(final String authorizationHeaderToken,
+	public static UsernamePasswordAuthenticationToken getUsuarioAutenticacaoToken(final String authorizationHeaderToken,
 			final String jwtSecretKey) {
 
 		final DecodedJWT jwt = verifyAuthToken(authorizationHeaderToken, jwtSecretKey);
 		final Claim claimIdUsuario = jwt.getClaim(ID_USUARIO);
+		final Claim claimEmailUsuario = jwt.getClaim(ID_USUARIO);
 
 		// Id do usuário é obrigatório no token
 		if (claimIdUsuario == null) {
-			JwtUtil.LOG.error("Usuário não encontrado ou inválido.");
-			throw new RuntimeException("Usuário não encontrado ou inválido.");
+			throw new BadCredentialsException("Usuário não encontrado ou inválido.");
 		}
 
 		final Usuario usuario = new Usuario();
 		usuario.setId(claimIdUsuario.asLong());
+		usuario.setEmail(claimEmailUsuario.asString());
 
 		final Claim claimPermissoes = jwt.getClaim(PERMISSOES_USUARIO);
-		
+
 		List<SimpleGrantedAuthority> permissoes = null;
 
 		if (claimPermissoes != null) {
 			permissoes = claimPermissoes.asList(String.class).stream()
-					.map(descricaoPermissao -> new SimpleGrantedAuthority( descricaoPermissao)).collect(Collectors.toList());
+					.map(descricaoPermissao -> new SimpleGrantedAuthority(descricaoPermissao))
+					.collect(Collectors.toList());
 		}
-		
-	 
+
 		return new UsernamePasswordAuthenticationToken(usuario, null, permissoes);
 	}
 
