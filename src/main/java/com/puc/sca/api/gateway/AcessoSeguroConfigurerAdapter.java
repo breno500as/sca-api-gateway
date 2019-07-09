@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -39,7 +39,7 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 		    .exceptionHandling()
 			.defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROTECTED_URLS)
 			.and()
-            .addFilterBefore(authFilter(), AnonymousAuthenticationFilter.class)
+            .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
 			.requestMatchers(PROTECTED_URLS).authenticated()
 			.and()

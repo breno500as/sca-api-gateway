@@ -1,20 +1,24 @@
 package com.puc.sca.api.gateway.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import javax.annotation.security.RolesAllowed;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.puc.sca.api.gateway.entity.Usuario;
 
 @RestController
 @RequestMapping("teste")
 public class TesteSegurancaController {
 
-	//@Secured("ADMIN")
-	@GetMapping("metodo")
+	@RolesAllowed("ADMIN")
 	@ResponseBody
-	public String testeMetodoAutenticado() {
-		System.out.println("aaaaa");
-		return "{\"resposta\": \"XYZ\"}";
+	@RequestMapping("metodo")
+	public Usuario testeMetodoAutenticado() {
+		Usuario u = new Usuario();
+		u.setId(1L);
+		return u;
 	}
 
 }

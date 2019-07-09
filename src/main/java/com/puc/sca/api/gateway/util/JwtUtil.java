@@ -1,12 +1,12 @@
 package com.puc.sca.api.gateway.util;
 
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.jboss.logging.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
@@ -139,15 +139,16 @@ public final class JwtUtil {
 		usuario.setId(claimIdUsuario.asLong());
 
 		final Claim claimPermissoes = jwt.getClaim(PERMISSOES_USUARIO);
+		
+		List<SimpleGrantedAuthority> permissoes = null;
 
 		if (claimPermissoes != null) {
-			usuario.setPermissoes(claimPermissoes.asList(String.class).stream()
-					.map(descricaoPermissao -> new Permissao(descricaoPermissao)).collect(Collectors.toList()));
+			permissoes = claimPermissoes.asList(String.class).stream()
+					.map(descricaoPermissao -> new SimpleGrantedAuthority( descricaoPermissao)).collect(Collectors.toList());
 		}
 		
 	 
-
-		return new UsernamePasswordAuthenticationToken(usuario, claimPermissoes.asList(String.class), Collections.emptyList());
+		return new UsernamePasswordAuthenticationToken(usuario, null, permissoes);
 	}
 
 }
