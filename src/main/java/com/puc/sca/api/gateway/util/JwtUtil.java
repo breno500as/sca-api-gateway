@@ -147,7 +147,7 @@ public final class JwtUtil {
 					.collect(Collectors.toList());
 		}
 
-		return new UsernamePasswordAuthenticationToken(usuario, null, permissoes);
+		return new UsernamePasswordAuthenticationToken(usuario, authorizationHeaderToken, permissoes);
 	}
 
 }

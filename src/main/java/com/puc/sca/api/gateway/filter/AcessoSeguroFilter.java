@@ -27,7 +27,7 @@ import com.puc.sca.api.gateway.util.JwtUtil;
 
 public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 
-	private static final String BEARER = "Bearer";
+	public static final String BEARER = "Bearer";
 
 	private String secretKey;
 
