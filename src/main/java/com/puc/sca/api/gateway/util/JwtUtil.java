@@ -1,12 +1,8 @@
 package com.puc.sca.api.gateway.util;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
@@ -17,8 +13,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.puc.sca.api.gateway.entity.Permissao;
-import com.puc.sca.api.gateway.entity.Usuario;
 
 /**
  * Utilitário para geração do web token.
@@ -47,9 +41,18 @@ public final class JwtUtil {
 
 	/**
 	 * Header.
+	 * 
 	 */
 
 	public static final String AUTHORIZATION_HEADER = "Authorization";
+	
+	/**
+	 * Apenas para fins didádicos. 
+	 * A chave secreta e essa classe podem ser isoladas em uma aplicação com um scheduler diário para atualizar a chave. 
+	 * E a comunicação via API com essa aplicação para obter a chave secreta.
+	 */
+	
+	private static final String SECRET_KEY = "e83c7691-515a-4f6c-8048-197b823f0d1b";
 
 	/**
 	 * Construtor default.
@@ -66,25 +69,24 @@ public final class JwtUtil {
 	 * @return
 	 */
 
-	public static String buildAuthToken(final Long id, final String email, final List<Permissao> permissoes,
-			final String jwtSecretKey) {
+	public static String buildAuthToken(final Long id, final String email, final List<String> permissoes) {
 		try {
 
 			final Calendar expiresAt = Calendar.getInstance();
 			expiresAt.add(Calendar.HOUR, 1);
-			final Algorithm algorithm = Algorithm.HMAC256(jwtSecretKey);
+			final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
 
 			final Builder jwtTokenBuilder = JWT.create().withClaim(ID_USUARIO, id).withClaim(EMAIL_USUARIO, email)
-					.withArrayClaim(PERMISSOES_USUARIO, permissoes.stream().map(permissao -> permissao.getDescricao())
-							.collect(Collectors.toList()).stream().toArray(String[]::new))
+					.withArrayClaim(PERMISSOES_USUARIO,
+							permissoes != null ? permissoes.stream().toArray(String[]::new) : null)
 					.withExpiresAt(expiresAt.getTime());
 
 			return jwtTokenBuilder.sign(algorithm);
 
 		} catch (final IllegalArgumentException e) {
-			throw new BadCredentialsException("Erro ao criar o token de autorização");
+			throw new RuntimeException("Erro ao criar o token de autorização");
 		} catch (final JWTCreationException e) {
-			throw new BadCredentialsException("Erro jwt ao criar o token de autorização");
+			throw new RuntimeException("Erro jwt ao criar o token de autorização");
 		}
 	}
 
@@ -105,11 +107,11 @@ public final class JwtUtil {
 			return verifier.verify(authorizationHeaderToken);
 
 		} catch (final IllegalArgumentException e) {
-			throw new BadCredentialsException("Erro ao verificar o token de autorização");
+			throw new RuntimeException("Erro ao verificar o token de autorização");
 		} catch (final TokenExpiredException e) {
-			throw new BadCredentialsException("Token expirado");
+			throw new RuntimeException("Token expirado");
 		} catch (final JWTVerificationException e) {
-			throw new BadCredentialsException("Token inválido");
+			throw new RuntimeException("Token inválido");
 		}
 	}
 
@@ -121,33 +123,29 @@ public final class JwtUtil {
 	 * @return
 	 */
 
-	public static UsernamePasswordAuthenticationToken getUsuarioAutenticacaoToken(final String authorizationHeaderToken,
-			final String jwtSecretKey) {
+	public static List<String> getDadosUsuarioToken(final String authorizationHeaderToken) {
 
-		final DecodedJWT jwt = verifyAuthToken(authorizationHeaderToken, jwtSecretKey);
+		final DecodedJWT jwt = verifyAuthToken(authorizationHeaderToken, SECRET_KEY);
+
 		final Claim claimIdUsuario = jwt.getClaim(ID_USUARIO);
-		final Claim claimEmailUsuario = jwt.getClaim(ID_USUARIO);
 
 		// Id do usuário é obrigatório no token
 		if (claimIdUsuario == null) {
-			throw new BadCredentialsException("Usuário não encontrado ou inválido.");
+			throw new RuntimeException("Usuário não encontrado ou inválido.");
 		}
 
-		final Usuario usuario = new Usuario();
-		usuario.setId(claimIdUsuario.asLong());
-		usuario.setEmail(claimEmailUsuario.asString());
+		final List<String> dadosUsuario = new ArrayList<String>();
+
+		dadosUsuario.add(claimIdUsuario.asString());
+		dadosUsuario.add(jwt.getClaim(EMAIL_USUARIO).asString());
 
 		final Claim claimPermissoes = jwt.getClaim(PERMISSOES_USUARIO);
 
-		List<SimpleGrantedAuthority> permissoes = null;
-
 		if (claimPermissoes != null) {
-			permissoes = claimPermissoes.asList(String.class).stream()
-					.map(descricaoPermissao -> new SimpleGrantedAuthority(descricaoPermissao))
-					.collect(Collectors.toList());
+			dadosUsuario.add(claimPermissoes.asString());
 		}
 
-		return new UsernamePasswordAuthenticationToken(usuario, authorizationHeaderToken, permissoes);
+		return dadosUsuario;
 	}
 
 }

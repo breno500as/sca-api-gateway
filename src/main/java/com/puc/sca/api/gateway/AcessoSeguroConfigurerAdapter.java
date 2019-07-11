@@ -57,7 +57,6 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 	public AcessoSeguroFilter authFilter() throws Exception {
 		final AcessoSeguroFilter filter = new AcessoSeguroFilter(PROTECTED_URLS);
 		filter.setAuthenticationManager(authenticationManager());
-		filter.setSecretKey(this.secretKey);
 		return filter;
 	}
 

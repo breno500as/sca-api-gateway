@@ -6,7 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 
-import com.puc.sca.api.gateway.filter.AuthorizationHeaderFilter;
+import com.puc.sca.api.gateway.filter.AuthorizationHeaderZuulFilter;
 
 @SpringBootApplication
 @EnableZuulProxy
@@ -18,8 +18,8 @@ public class ScaApiGatewayApplication {
 	}
 
 	@Bean
-	public AuthorizationHeaderFilter authHeaderFilter() {
-		return new AuthorizationHeaderFilter();
+	public AuthorizationHeaderZuulFilter authHeaderFilter() {
+		return new AuthorizationHeaderZuulFilter();
 	}
 
 }

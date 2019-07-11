@@ -18,7 +18,6 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
-		<jwt.secret.key>e83c7691-515a-4f6c-8048-197b823f0d1b</jwt.secret.key>
 	</properties>
 	
 	<profiles>
@@ -126,37 +125,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.1.1</version>
 			</plugin>
-				<plugin>
-				<groupId>org.codehaus.gmaven</groupId>
-				<artifactId>gmaven-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<id>set-custom-property</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-						    <providerSelection>1.8</providerSelection>
-							<classpath>
-								<element>
-									<groupId>org.safehaus.jug</groupId>
-									<artifactId>jug</artifactId>
-									<classifier>lgpl</classifier>
-									<version>2.0.0</version>
-								</element>
-							</classpath>
-							<source>
-								import org.safehaus.uuid.UUIDGenerator
-								def uuid =
-								UUIDGenerator.getInstance().generateRandomBasedUUID()
-								project.properties.setProperty('jwt.secret.key', uuid.toString())
-							</source>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			 
 		</plugins>
 	</build>
 	

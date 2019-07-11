@@ -1,5 +1,8 @@
 package com.puc.sca.api.gateway.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -32,7 +35,14 @@ public class LoginController {
 			return HttpStatus.UNAUTHORIZED.toString();
 		}
 
-		final String token = JwtUtil.buildAuthToken(usuario.getId(), usuario.getEmail(), usuario.getPermissoes(), this.secretKey);
+		List<String> permissoes = null;
+		
+		if (usuario.getPermissoes() != null) {
+			permissoes = usuario.getPermissoes().stream().map(permissao -> permissao.getDescricao())
+					.collect(Collectors.toList());
+		}
+ 		 
+		final String token = JwtUtil.buildAuthToken(usuario.getId(), usuario.getEmail(), permissoes);
 
 		return "{\"token\": \"" +token+ "\"}";
 	}
