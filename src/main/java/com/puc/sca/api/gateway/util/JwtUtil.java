@@ -1,8 +1,10 @@
 package com.puc.sca.api.gateway.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
@@ -136,13 +138,13 @@ public final class JwtUtil {
 
 		final List<String> dadosUsuario = new ArrayList<String>();
 
-		dadosUsuario.add(claimIdUsuario.asString());
+		dadosUsuario.add(claimIdUsuario.asLong().toString());
 		dadosUsuario.add(jwt.getClaim(EMAIL_USUARIO).asString());
 
 		final Claim claimPermissoes = jwt.getClaim(PERMISSOES_USUARIO);
 
 		if (claimPermissoes != null) {
-			dadosUsuario.add(claimPermissoes.asString());
+			dadosUsuario.add(Arrays.asList(claimPermissoes.asArray(String.class)).stream().map(s -> s).collect(Collectors.joining(",")));
 		}
 
 		return dadosUsuario;
