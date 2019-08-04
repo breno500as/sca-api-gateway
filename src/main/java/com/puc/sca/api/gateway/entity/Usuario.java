@@ -36,6 +36,9 @@ public class Usuario implements Serializable {
 	@Transient
 	private List<String> roles;
 
+	@Transient
+	private String token;
+
 	public Long getId() {
 		return id;
 	}
@@ -82,6 +85,14 @@ public class Usuario implements Serializable {
 
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }
