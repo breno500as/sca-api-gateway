@@ -47,7 +47,7 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
             .authorizeRequests()
 			.requestMatchers(PROTECTED_URLS)
 			.authenticated()
-			/*.and()
+			.and()
 			.csrf()
 			.disable()
 			.formLogin()
@@ -55,7 +55,7 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 			.httpBasic()
 			.disable()
 			.logout()
-			.disable()*/;
+			.disable();
 	}
 
 	@Bean
