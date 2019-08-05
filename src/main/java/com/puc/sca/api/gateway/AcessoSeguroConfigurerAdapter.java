@@ -3,6 +3,7 @@ package com.puc.sca.api.gateway;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.puc.sca.api.gateway.filter.AcessoSeguroFilter;
 
@@ -41,7 +45,8 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 			.and()
             .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
-			.requestMatchers(PROTECTED_URLS).authenticated()
+			.requestMatchers(PROTECTED_URLS)
+			.authenticated()
 			.and()
 			.csrf()
 			.disable()
@@ -63,6 +68,22 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 	@Bean
 	public AuthenticationEntryPoint forbiddenEntryPoint() {
 		return new HttpStatusEntryPoint(FORBIDDEN);
+	}
+	
+	
+	@Bean
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public FilterRegistrationBean corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("http://localhost:4200");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration("/**", config);
+		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		bean.setOrder(0);
+		return bean;
 	}
 
 }
