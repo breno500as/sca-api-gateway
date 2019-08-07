@@ -2,8 +2,9 @@ package com.puc.sca.api.gateway;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
+import javax.ws.rs.core.HttpHeaders;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,7 +47,9 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
             .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
 			.requestMatchers(PROTECTED_URLS)
-			.authenticated()
+			.authenticated() 
+			.and()
+			.cors()
 			.and()
 			.csrf()
 			.disable()
@@ -70,20 +73,20 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 		return new HttpStatusEntryPoint(FORBIDDEN);
 	}
 	
-	
 	@Bean
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public FilterRegistrationBean corsFilter() {
+	public CorsFilter corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("http://localhost:4200");
+		config.addAllowedOrigin("*");  
 		config.addAllowedHeader("*");
+		config.addExposedHeader(HttpHeaders.AUTHORIZATION);
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);
-		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-		bean.setOrder(0);
-		return bean;
+		return new CorsFilter(source);
 	}
+
+	
+	 
 
 }
