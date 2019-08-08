@@ -42,19 +42,22 @@ public class AuthorizationHeaderZuulFilter extends ZuulFilter {
 		    
 			// Passando o usuário e permissões para aplicações hospedadas no datacenter interno
 		    } else {
-		        Usuario usuario = (Usuario) u.getPrincipal();
-				Map<String, List<String>> newParameterMap = new HashMap<String, List<String>>();
-				
-				 newParameterMap.put("idUsuarioLogado", Arrays.asList(usuario.getId().toString()));
-				
-			
+				Usuario usuario = (Usuario) u.getPrincipal();
+				Map<String, List<String>> newParameterMap = ctx.getRequestQueryParams();
+
+				if (newParameterMap == null) {
+					newParameterMap = new HashMap<String, List<String>>();
+				}
+
+				newParameterMap.put("idUsuarioLogado", Arrays.asList(usuario.getId().toString()));
+
 				if (authentication.getAuthorities() != null) {
 					Collection<SimpleGrantedAuthority> permissoes = (Collection<SimpleGrantedAuthority>) authentication.getAuthorities();
 					String list = permissoes.stream().map(a -> a.getAuthority()).collect(Collectors.joining(","));
 					newParameterMap.put("permissoes", Arrays.asList(list));
 				}
-				
-				ctx.setRequestQueryParams(newParameterMap); 
+
+				ctx.setRequestQueryParams(newParameterMap);
 		     }
 		 
 		}
