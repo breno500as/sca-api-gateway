@@ -15,6 +15,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.puc.sca.integration.util.Constants;
 
 /**
  * Utilitário para geração do web token.
@@ -26,26 +27,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 public final class JwtUtil {
 
 	/**
-	 * Id do usuário.
-	 */
-	private static final String ID_USUARIO = "usuario";
-
-	/**
-	 * Email do usuário.
-	 */
-	private static final String EMAIL_USUARIO = "email_usuario";
-
-	/**
-	 * Permissões.
-	 */
-
-	private static final String PERMISSOES_USUARIO = "permissoes";
-
-	/**
 	 * Header.
 	 * 
 	 */
-
 	public static final String AUTHORIZATION_HEADER = "Authorization";
 	
 	/**
@@ -53,7 +37,6 @@ public final class JwtUtil {
 	 * A chave secreta e essa classe podem ser isoladas em uma aplicação com um scheduler diário para atualizar a chave. 
 	 * E a comunicação via API com essa aplicação para obter a chave secreta.
 	 */
-	
 	private static final String SECRET_KEY = "e83c7691-515a-4f6c-8048-197b823f0d1b";
 
 	/**
@@ -66,21 +49,25 @@ public final class JwtUtil {
 	 * Gera o token.
 	 * 
 	 * @param id
+	 * @param nome
+	 * @param email
 	 * @param permissoes
 	 * @param jwtSecretKey
 	 * @return
 	 */
 
-	public static String buildAuthToken(final Long id, final String email, final List<String> permissoes) {
+	public static String buildAuthToken(final Long id, final String nome, final String email, final List<String> permissoes) {
 		try {
 
 			final Calendar expiresAt = Calendar.getInstance();
 			expiresAt.add(Calendar.HOUR, 1);
 			final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
 
-			final Builder jwtTokenBuilder = JWT.create().withClaim(ID_USUARIO, id).withClaim(EMAIL_USUARIO, email)
-					.withArrayClaim(PERMISSOES_USUARIO,
-							permissoes != null ? permissoes.stream().toArray(String[]::new) : null)
+			final Builder jwtTokenBuilder = JWT.create()
+					.withClaim(Constants.ID_USUARIO_LOGADO, id)
+					.withClaim(Constants.NOME_USUARIO_LOGADO, nome)
+					.withClaim(Constants.EMAIL_USUARIO_LOGADO, email)
+					.withArrayClaim(Constants.PERMISSOES_USUARIO_LOGADO, permissoes != null ? permissoes.stream().toArray(String[]::new) : null)
 					.withExpiresAt(expiresAt.getTime());
 
 			return jwtTokenBuilder.sign(algorithm);
@@ -129,7 +116,7 @@ public final class JwtUtil {
 
 		final DecodedJWT jwt = verifyAuthToken(authorizationHeaderToken, SECRET_KEY);
 
-		final Claim claimIdUsuario = jwt.getClaim(ID_USUARIO);
+		final Claim claimIdUsuario = jwt.getClaim(Constants.ID_USUARIO_LOGADO);
 
 		// Id do usuário é obrigatório no token
 		if (claimIdUsuario == null) {
@@ -139,9 +126,10 @@ public final class JwtUtil {
 		final List<String> dadosUsuario = new ArrayList<String>();
 
 		dadosUsuario.add(claimIdUsuario.asLong().toString());
-		dadosUsuario.add(jwt.getClaim(EMAIL_USUARIO).asString());
+		dadosUsuario.add(jwt.getClaim(Constants.NOME_USUARIO_LOGADO).asString());
+		dadosUsuario.add(jwt.getClaim(Constants.EMAIL_USUARIO_LOGADO).asString());
 
-		final Claim claimPermissoes = jwt.getClaim(PERMISSOES_USUARIO);
+		final Claim claimPermissoes = jwt.getClaim(Constants.PERMISSOES_USUARIO_LOGADO);
 
 		if (claimPermissoes != null) {
 			dadosUsuario.add(Arrays.asList(claimPermissoes.asArray(String.class)).stream().map(s -> s).collect(Collectors.joining(",")));

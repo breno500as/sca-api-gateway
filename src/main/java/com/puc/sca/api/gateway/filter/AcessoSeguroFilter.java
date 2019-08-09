@@ -58,13 +58,14 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 	
 		final Usuario usuario = new Usuario();
 		usuario.setId(Long.parseLong(dadosUsuario.get(0)));
-		usuario.setEmail(dadosUsuario.get(1));
+		usuario.setNome(dadosUsuario.get(1));
+		usuario.setEmail(dadosUsuario.get(2));
 			
 		Collection<SimpleGrantedAuthority> authorities = null;
 	
 		if (dadosUsuario.size() > 2) {
 			authorities = new ArrayList<SimpleGrantedAuthority>();
-			authorities.add(new SimpleGrantedAuthority(dadosUsuario.get(2)));
+			authorities.add(new SimpleGrantedAuthority(dadosUsuario.get(3)));
 		}
 	
 		return  new UsernamePasswordAuthenticationToken(usuario, token, authorities);

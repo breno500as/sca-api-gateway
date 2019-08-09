@@ -46,7 +46,7 @@ public class LoginController {
 			
 		}
  		 
-		final String token = JwtUtil.buildAuthToken(usuarioAutenticado.getId(), usuarioAutenticado.getEmail(), permissoes);
+		final String token = JwtUtil.buildAuthToken(usuarioAutenticado.getId(), usuarioAutenticado.getNome(), usuarioAutenticado.getEmail(), permissoes);
 		usuarioAutenticado.setRoles(permissoes);
 		usuarioAutenticado.setToken(token);
 		usuarioAutenticado.setSenha(null);

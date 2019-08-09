@@ -19,6 +19,7 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.puc.sca.api.gateway.entity.Usuario;
+import com.puc.sca.integration.util.Constants;
 
 public class AuthorizationHeaderZuulFilter extends ZuulFilter {
 
@@ -42,6 +43,7 @@ public class AuthorizationHeaderZuulFilter extends ZuulFilter {
 		    
 			// Passando o usuário e permissões para aplicações hospedadas no datacenter interno
 		    } else {
+		    	
 				Usuario usuario = (Usuario) u.getPrincipal();
 				Map<String, List<String>> newParameterMap = ctx.getRequestQueryParams();
 
@@ -49,12 +51,14 @@ public class AuthorizationHeaderZuulFilter extends ZuulFilter {
 					newParameterMap = new HashMap<String, List<String>>();
 				}
 
-				newParameterMap.put("idUsuarioLogado", Arrays.asList(usuario.getId().toString()));
+				newParameterMap.put(Constants.ID_USUARIO_LOGADO, Arrays.asList(usuario.getId().toString()));
+				newParameterMap.put(Constants.NOME_USUARIO_LOGADO, Arrays.asList(usuario.getNome()));
+				newParameterMap.put(Constants.EMAIL_USUARIO_LOGADO, Arrays.asList(usuario.getEmail()));
 
 				if (authentication.getAuthorities() != null) {
 					Collection<SimpleGrantedAuthority> permissoes = (Collection<SimpleGrantedAuthority>) authentication.getAuthorities();
 					String list = permissoes.stream().map(a -> a.getAuthority()).collect(Collectors.joining(","));
-					newParameterMap.put("permissoes", Arrays.asList(list));
+					newParameterMap.put(Constants.PERMISSOES_USUARIO_LOGADO, Arrays.asList(list));
 				}
 
 				ctx.setRequestQueryParams(newParameterMap);
