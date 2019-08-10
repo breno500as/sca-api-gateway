@@ -26,18 +26,6 @@ import com.puc.sca.integration.util.Constants;
 
 public final class JwtUtil {
 
-	/**
-	 * Header.
-	 * 
-	 */
-	public static final String AUTHORIZATION_HEADER = "Authorization";
-	
-	/**
-	 * Apenas para fins didádicos. 
-	 * A chave secreta e essa classe podem ser isoladas em uma aplicação com um scheduler diário para atualizar a chave. 
-	 * E a comunicação via API com essa aplicação para obter a chave secreta.
-	 */
-	private static final String SECRET_KEY = "e83c7691-515a-4f6c-8048-197b823f0d1b";
 
 	/**
 	 * Construtor default.
@@ -56,12 +44,12 @@ public final class JwtUtil {
 	 * @return
 	 */
 
-	public static String buildAuthToken(final Long id, final String nome, final String email, final List<String> permissoes) {
+	public static String buildAuthToken(final Long id, final String nome, final String email, final List<String> permissoes, final String secretKey) {
 		try {
 
 			final Calendar expiresAt = Calendar.getInstance();
 			expiresAt.add(Calendar.HOUR, 1);
-			final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+			final Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
 			final Builder jwtTokenBuilder = JWT.create()
 					.withClaim(Constants.ID_USUARIO_LOGADO, id)
@@ -112,9 +100,9 @@ public final class JwtUtil {
 	 * @return
 	 */
 
-	public static List<String> getDadosUsuarioToken(final String authorizationHeaderToken) {
+	public static List<String> getDadosUsuarioToken(final String authorizationHeaderToken, String secretKey) {
 
-		final DecodedJWT jwt = verifyAuthToken(authorizationHeaderToken, SECRET_KEY);
+		final DecodedJWT jwt = verifyAuthToken(authorizationHeaderToken, secretKey);
 
 		final Claim claimIdUsuario = jwt.getClaim(Constants.ID_USUARIO_LOGADO);
 

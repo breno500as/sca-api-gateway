@@ -39,7 +39,7 @@ public class AuthorizationHeaderZuulFilter extends ZuulFilter {
    		  
 		    // Passando o token para aplicações hospedadas na nuvem
 		    if (ctx.getRequest().getRequestURL().toString().contains("cloud")) {
-			    ctx.addZuulRequestHeader("Authorization", AcessoSeguroFilter.BEARER + " " + (String) u.getCredentials());
+			    ctx.addZuulRequestHeader(Constants.AUTHORIZATION_HEADER, AcessoSeguroFilter.BEARER + " " + (String) u.getCredentials());
 		    
 			// Passando o usuário e permissões para aplicações hospedadas no datacenter interno
 		    } else {

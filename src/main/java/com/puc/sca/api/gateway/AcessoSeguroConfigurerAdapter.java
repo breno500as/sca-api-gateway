@@ -63,7 +63,7 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 
 	@Bean
 	public AcessoSeguroFilter authFilter() throws Exception {
-		final AcessoSeguroFilter filter = new AcessoSeguroFilter(PROTECTED_URLS);
+		final AcessoSeguroFilter filter = new AcessoSeguroFilter(PROTECTED_URLS, this.secretKey);
 		filter.setAuthenticationManager(authenticationManager());
 		return filter;
 	}

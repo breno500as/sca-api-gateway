@@ -24,6 +24,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.puc.sca.api.gateway.entity.Usuario;
 import com.puc.sca.api.gateway.util.JwtUtil;
+import com.puc.sca.integration.util.Constants;
 
 /**
  * Filtro responsável por verificar se o web token foi repassado nas requisições privadas.
@@ -34,11 +35,14 @@ import com.puc.sca.api.gateway.util.JwtUtil;
 public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 
 	public static final String BEARER = "Bearer";
+	
+	public String secretKey;
 
  
 
-	public AcessoSeguroFilter(final RequestMatcher requiresAuth) {
+	public AcessoSeguroFilter(final RequestMatcher requiresAuth, final String secretKey) {
 		super(requiresAuth);
+		this.secretKey = secretKey;
 
 	}
 
@@ -46,7 +50,7 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 
-		final String authorizationHeaderToken = request.getHeader(JwtUtil.AUTHORIZATION_HEADER);
+		final String authorizationHeaderToken = request.getHeader(Constants.AUTHORIZATION_HEADER);
 
 		if (authorizationHeaderToken == null) {
 			throw new BadCredentialsException("Token de autenticação é obrigatório");
@@ -54,7 +58,7 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 
 		final String token = removeStart(authorizationHeaderToken, BEARER).trim();
 		
-		final List<String> dadosUsuario = JwtUtil.getDadosUsuarioToken(token);
+		final List<String> dadosUsuario = JwtUtil.getDadosUsuarioToken(token, this.secretKey);
 	
 		final Usuario usuario = new Usuario();
 		usuario.setId(Long.parseLong(dadosUsuario.get(0)));
