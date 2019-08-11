@@ -1,4 +1,4 @@
-version: "3"
+version: "3.4"
 services:
   api-gateway-db:
     image: postgres:latest
@@ -23,6 +23,7 @@ services:
       - api-gateway-db
     links:
       - api-gateway-db
+  
  
  #sudo docker build -t api-gateway-web  .    
  #sudo SPRING_PROFILES_ACTIVE=hml TESTE=teste docker-compose up --build
