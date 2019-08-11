@@ -1,6 +1,6 @@
 package com.puc.sca.api.gateway.filter;
 
-import static org.apache.commons.lang3.StringUtils.removeStart;
+ 
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 			throw new BadCredentialsException("Token de autenticação é obrigatório");
 		}
 
-		final String token = removeStart(authorizationHeaderToken, BEARER).trim();
+		final String token = authorizationHeaderToken.replaceAll(BEARER, "");
 		
 		final List<String> dadosUsuario = JwtUtil.getDadosUsuarioToken(token, this.secretKey);
 	

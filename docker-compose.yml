@@ -1,0 +1,28 @@
+version: "3"
+services:
+  api-gateway-db:
+    image: postgres:latest
+    ports:
+      - 5432
+    network_mode: bridge
+    environment:
+         - POSTGRES_PASSWORD=root
+         - POSTGRES_USER=postgres
+         - POSTGRES_DB=sca-security
+         - SPRING_PROFILES_ACTIVE=$SPRING_PROFILES_ACTIVE 
+         
+  api-gateway-web:
+    image: api-gateway-web:latest
+    network_mode: bridge
+    container_name: api-gateway-web
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    depends_on:
+      - api-gateway-db
+    links:
+      - api-gateway-db
+ 
+ #sudo docker build -t api-gateway-web  .    
+ #sudo SPRING_PROFILES_ACTIVE=hml TESTE=teste docker-compose up --build

@@ -2,8 +2,6 @@ package com.puc.sca.api.gateway;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
-import javax.ws.rs.core.HttpHeaders;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -23,6 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import com.puc.sca.api.gateway.filter.AcessoSeguroFilter;
+import com.puc.sca.integration.util.Constants;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
@@ -80,7 +79,7 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 		config.setAllowCredentials(true);
 		config.addAllowedOrigin("*");  
 		config.addAllowedHeader("*");
-		config.addExposedHeader(HttpHeaders.AUTHORIZATION);
+		config.addExposedHeader(Constants.AUTHORIZATION_HEADER);
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
