@@ -24,6 +24,11 @@ services:
     links:
       - api-gateway-db
   
- 
- #sudo docker build -t api-gateway-web  .    
+      
  #sudo SPRING_PROFILES_ACTIVE=hml TESTE=teste docker-compose up --build
+ #sudo docker ps -a (imagens já criadas)
+ #sudo docker build -t api-gateway-web  .
+ #sudo docker run -p 8080:8080 -d <nome da imagem>
+ #sudo docker stop <nome da imagem>
+ #sudo docker rm <nome da imagem>
+ #sudo docker ps (imagens ativas)
