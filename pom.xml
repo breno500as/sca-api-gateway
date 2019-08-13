@@ -125,10 +125,25 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.1.1</version>
 			</plugin>
-			 
+		 
+             
+         
 		</plugins>
 	</build>
 	
-	 
+	<repositories>
+	<repository>
+		<id>repositorio</id>
+		<name>sca-integration-util-repo</name>
+		<url>https://github.com/breno500as/sca-integration-util-repo/tree/master/</url>
+		<releases>
+			<enabled>true</enabled>
+		</releases>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+		 
+	</repository>
+  </repositories>
 
 </project>
