@@ -56,7 +56,7 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 			throw new BadCredentialsException("Token de autenticação é obrigatório");
 		}
 
-		final String token = authorizationHeaderToken.replaceAll(BEARER, "");
+		final String token = authorizationHeaderToken.replaceAll(BEARER, "").trim();
 		
 		final List<String> dadosUsuario = JwtUtil.getDadosUsuarioToken(token, this.secretKey);
 	
