@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Usuario implements Serializable {
 
@@ -31,6 +33,7 @@ public class Usuario implements Serializable {
 	private String email;
 
 	@OneToMany(mappedBy = "usuario")
+	@JsonIgnore
 	private List<Permissao> permissoes;
 
 	@Transient

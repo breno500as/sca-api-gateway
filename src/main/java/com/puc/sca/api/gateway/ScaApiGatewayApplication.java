@@ -14,7 +14,7 @@ import com.puc.sca.api.gateway.filter.AuthorizationHeaderZuulFilter;
 public class ScaApiGatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ScaApiGatewayApplication.class, args);
+	 SpringApplication.run(ScaApiGatewayApplication.class, args);
 	}
 
 	@Bean

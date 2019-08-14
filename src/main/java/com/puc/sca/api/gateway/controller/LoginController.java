@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,6 @@ import com.puc.sca.api.gateway.util.JwtUtil;
 
 @RestController
 @RequestMapping("public/login")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class LoginController {
 
 	@Autowired
