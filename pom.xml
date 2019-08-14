@@ -133,15 +133,18 @@
 	
 	<repositories>
 	<repository>
-		<id>repositorio</id>
-		<name>sca-integration-util-repo</name>
-		<url>https://github.com/breno500as/sca-integration-util-repo/tree/master/</url>
+		<id>sca-repository</id>
+		<name>sca-repository</name>
+		<url>https://github.com/breno500as/sca-repository/tree/master/</url>
+		
 		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>true</enabled>
-		</snapshots>
+            
+            <checksumPolicy>ignore</checksumPolicy>
+          </releases>
+          <snapshots>
+           
+            <checksumPolicy>ignore</checksumPolicy>
+          </snapshots>
 		 
 	</repository>
   </repositories>
