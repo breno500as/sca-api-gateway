@@ -12,7 +12,7 @@ services:
          - SPRING_PROFILES_ACTIVE=$SPRING_PROFILES_ACTIVE 
          
   api-gateway-web:
-    image: api-gateway-web:v17
+    image: api-gateway-web:v20
     network_mode: bridge
     container_name: api-gateway-web
     expose:
