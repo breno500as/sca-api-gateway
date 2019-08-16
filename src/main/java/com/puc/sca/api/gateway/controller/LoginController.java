@@ -16,6 +16,12 @@ import com.puc.sca.api.gateway.entity.Usuario;
 import com.puc.sca.api.gateway.repository.UsuarioRepository;
 import com.puc.sca.api.gateway.util.JwtUtil;
 
+/**
+ * Rest controller responsável por gerenciar autenticação e autorização dos microserviços do sistema.
+ * @author breno
+ *
+ */
+
 @RestController
 @RequestMapping("public/login")
 public class LoginController {

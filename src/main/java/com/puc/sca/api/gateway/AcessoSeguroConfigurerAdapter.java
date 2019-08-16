@@ -23,6 +23,12 @@ import org.springframework.web.filter.CorsFilter;
 import com.puc.sca.api.gateway.filter.AcessoSeguroFilter;
 import com.puc.sca.integration.util.Constants;
 
+/**
+ * Configurações do spring security, tais como url protegidas, cors, filtros de segurança, etc.
+ * @author breno
+ *
+ */
+
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter {

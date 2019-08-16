@@ -70,11 +70,13 @@
 			<scope>runtime</scope>
 		</dependency>
 		
+		<!--   Mover jar para um repositório local (nexus por exemplo)
 		<dependency>
 			<groupId>com.puc.sca.integration.util</groupId>
 			<artifactId>sca-integration-util</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		-->
 
 		<!-- Início - Segurança -->
 		<dependency>

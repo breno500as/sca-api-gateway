@@ -21,6 +21,13 @@ import com.netflix.zuul.exception.ZuulException;
 import com.puc.sca.api.gateway.entity.Usuario;
 import com.puc.sca.integration.util.Constants;
 
+
+/**
+ * Filtro responsável por propagar a segurança para os microserviços solicitados pelas aplicações clientes
+ * @author breno
+ *
+ */
+
 public class AuthorizationHeaderZuulFilter extends ZuulFilter {
 
 	@Override
