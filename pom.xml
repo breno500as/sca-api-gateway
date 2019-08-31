@@ -35,9 +35,6 @@
 		</profile>
 		<profile>
 			<id>hml</id>
-			<activation>
-			 <activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<activatedProperties>hml</activatedProperties>
 			</properties>
