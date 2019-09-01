@@ -43,14 +43,8 @@ public class AuthorizationHeaderZuulFilter extends ZuulFilter {
 		if (authentication != null) {
 			UsernamePasswordAuthenticationToken u = (UsernamePasswordAuthenticationToken) authentication;
 		 
-   		  
-		    // Passando o token para aplicações hospedadas na nuvem
-		    if (ctx.getRequest().getRequestURL().toString().contains("cloud")) {
-			    ctx.addZuulRequestHeader(Constants.AUTHORIZATION_HEADER, AcessoSeguroFilter.BEARER + " " + (String) u.getCredentials());
-		    
-			// Passando o usuário e permissões para aplicações hospedadas no datacenter interno
-		    } else {
-		    	
+   		 
+			   // Passando o usuário e permissões para aplicações hospedadas no datacenter interno
 				Usuario usuario = (Usuario) u.getPrincipal();
 				Map<String, List<String>> newParameterMap = ctx.getRequestQueryParams();
 
@@ -69,8 +63,7 @@ public class AuthorizationHeaderZuulFilter extends ZuulFilter {
 				}
 
 				ctx.setRequestQueryParams(newParameterMap);
-		     }
-		 
+		     
 		}
 		
 	
