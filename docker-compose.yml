@@ -26,10 +26,10 @@ services:
          - SPRING_PROFILES_ACTIVE=$SPRING_PROFILES_ACTIVE
       
 #docker system prune //limpa o cache
-#sudo SPRING_PROFILES_ACTIVE=hml TESTE=teste docker-compose up --build
-#sudo docker ps -a (imagens já criadas)
-#sudo docker build -t api-gateway-web  .
-#sudo docker run -p 8080:8080 -d <nome da imagem>
-#sudo docker stop <nome da imagem>
-#sudo docker rm <nome da imagem>
-#sudo docker ps (imagens ativas)
+#SPRING_PROFILES_ACTIVE=test docker-compose up --build
+#docker ps -a (imagens já criadas)
+#docker build -t api-gateway-web  .
+#docker run -p 8080:8080 -d <nome da imagem>
+#docker stop <nome da imagem>
+#docker rm <nome da imagem>
+#docker ps (imagens ativas)
