@@ -8,4 +8,4 @@ COPY --from=clone /app/sca-api-gateway /app
 RUN mvn install -DskipTests
 WORKDIR cd /target
 ADD target/sca-api-gateway-0.0.1-SNAPSHOT.jar app.jar
-CMD [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar app.jar" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar app.jar" ]
