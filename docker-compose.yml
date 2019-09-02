@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     container_name: api-gateway-web
-    image: sca-client
+    image: sca-api-gateway
     ports:
       - '8080:8080'
     depends_on:
@@ -25,10 +25,11 @@ services:
          - POSTGRES_DB=sca-security
          - SPRING_PROFILES_ACTIVE=$SPRING_PROFILES_ACTIVE
       
- #SPRING_PROFILES_ACTIVE=hml TESTE=teste docker-compose up --build
- #docker ps -a (imagens já criadas)
- #docker build -t api-gateway-web  .
- #docker run -p 8080:8080  <nome da imagem>
- #docker stop <nome da imagem>
- #docker rm <nome da imagem>
- #sudo docker ps (imagens ativas)
+#docker system prune //limpa o cache
+#sudo SPRING_PROFILES_ACTIVE=hml TESTE=teste docker-compose up --build
+#sudo docker ps -a (imagens já criadas)
+#sudo docker build -t api-gateway-web  .
+#sudo docker run -p 8080:8080 -d <nome da imagem>
+#sudo docker stop <nome da imagem>
+#sudo docker rm <nome da imagem>
+#sudo docker ps (imagens ativas)
