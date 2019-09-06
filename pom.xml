@@ -112,46 +112,18 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<!-- Necessário para evitar erro de compilação no eclipse -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.1</version>
-			</plugin>
-		 
-             
-         
-		</plugins>
-	</build>
 	
 	<repositories>
 	<repository>
 		<id>sca-repository</id>
 		<name>sca-repository</name>
 		<url>https://github.com/breno500as/sca-repository/tree/master/</url>
-		
 		<releases>
-            
             <checksumPolicy>ignore</checksumPolicy>
           </releases>
           <snapshots>
-           
             <checksumPolicy>ignore</checksumPolicy>
           </snapshots>
-		 
 	</repository>
   </repositories>
 
