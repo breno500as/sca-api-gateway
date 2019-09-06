@@ -1,4 +1,4 @@
-package com.puc.sca.api.gateway;
+package com.puc.sca.api.gateway.filter;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
@@ -20,7 +20,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.puc.sca.api.gateway.filter.AcessoSeguroFilter;
 import com.puc.sca.integration.util.Constants;
 
 /**
