@@ -74,6 +74,13 @@
 			<scope>runtime</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		
 		<!--   Mover jar para um repositório local (nexus por exemplo)
 		<dependency>
 			<groupId>com.puc.sca.integration.util</groupId>
