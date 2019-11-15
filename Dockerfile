@@ -14,7 +14,6 @@ COPY --from=git /app/sca-api-gateway /build
 WORKDIR /build
 RUN mvn clean dependency:resolve dependency:resolve-plugins package spring-boot:repackage -DskipTests 
  
-
 #
 # Package stage
 #
