@@ -13,7 +13,7 @@ import com.puc.sca.api.gateway.entity.Usuario;
 import com.puc.sca.api.gateway.repository.UsuarioRepository;
 
 @RestController
-@RequestMapping("usuarios")
+@RequestMapping("public/usuarios")
 public class UsuarioController {
 
 	@Autowired

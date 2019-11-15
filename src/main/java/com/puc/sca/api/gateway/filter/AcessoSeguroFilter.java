@@ -38,6 +38,11 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 	
 	public String secretKey;
 
+	/**
+	 * Construtor.
+	 * @param requiresAuth - { @link RequestMatcher}
+	 * @param secretKey - chave secreta do token jwt { @link JwtUtil}
+	 */
  
 
 	public AcessoSeguroFilter(final RequestMatcher requiresAuth, final String secretKey) {
@@ -45,6 +50,10 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 		this.secretKey = secretKey;
 
 	}
+	
+	/**
+	 *  Método responsável por autenticar o usuário validando seu token.
+	 */
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
