@@ -29,7 +29,7 @@ services:
 #SPRING_PROFILES_ACTIVE=test docker-compose up --build
 #docker ps -a (imagens já criadas)
 #docker build -t api-gateway-web  .
-#docker run -p 8080:8080 -d <nome da imagem>
+#docker run -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=dev" <nome da imagem> 
 #docker stop <nome da imagem>
 #docker rm <nome da imagem>
 #docker ps (imagens ativas)
