@@ -4,8 +4,10 @@ package com.puc.sca.api.gateway.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
+import com.puc.sca.api.gateway.entity.Permissao;
 import com.puc.sca.api.gateway.entity.Usuario;
 import com.puc.sca.api.gateway.util.JwtUtil;
 import com.puc.sca.integration.util.Constants;
@@ -32,7 +35,7 @@ import com.puc.sca.integration.util.Constants;
  *
  */
 
-public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
+public class JwtFilter extends AbstractAuthenticationProcessingFilter {
 
 	public static final String BEARER = "Bearer";
 	
@@ -45,7 +48,7 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 	 */
  
 
-	public AcessoSeguroFilter(final RequestMatcher requiresAuth, final String secretKey) {
+	public JwtFilter(final RequestMatcher requiresAuth, final String secretKey) {
 		super(requiresAuth);
 		this.secretKey = secretKey;
 
@@ -78,7 +81,9 @@ public class AcessoSeguroFilter extends AbstractAuthenticationProcessingFilter {
 	
 		if (dadosUsuario.size() > 2) {
 			authorities = new ArrayList<SimpleGrantedAuthority>();
-			authorities.add(new SimpleGrantedAuthority(dadosUsuario.get(3)));
+			String roles = dadosUsuario.get(3);
+			authorities.add(new SimpleGrantedAuthority(roles));
+			usuario.setPermissoes(Arrays.asList(roles.split(",")).stream().map(s -> new Permissao(s)).collect(Collectors.toList()));
 		}
 	
 		return  new UsernamePasswordAuthenticationToken(usuario, token, authorities);

@@ -29,10 +29,12 @@ import com.puc.sca.integration.util.Constants;
  */
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(jsr250Enabled=true)
 public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter {
+	
+	private static final String PUBLIC_PATH = "/public/**";
 
-	private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(new AntPathRequestMatcher("/public/**"));
+	private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(new AntPathRequestMatcher(PUBLIC_PATH));
 
 	private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
 
@@ -42,7 +44,12 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.sessionManagement()
+		   http
+			.csrf()
+			.disable()
+			.cors()
+			.disable()
+			.sessionManagement()
 		    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		    .and()
 		    .exceptionHandling()
@@ -50,24 +57,15 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 			.and()
             .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
-			.requestMatchers(PROTECTED_URLS)
-			.authenticated() 
-			.and()
-			.cors()
-			.and()
-			.csrf()
-			.disable()
-			.formLogin()
-			.disable()
-			.httpBasic()
-			.disable()
-			.logout()
-			.disable();
+	        .antMatchers(PUBLIC_PATH)
+	        .permitAll();
+		    new CrudMicroserviceRoles().configureSecurity(http);
+		    new MonitorMicroserviceRoles().configureSecurity(http);
 	}
 
 	@Bean
-	public AcessoSeguroFilter authFilter() throws Exception {
-		final AcessoSeguroFilter filter = new AcessoSeguroFilter(PROTECTED_URLS, this.secretKey);
+	public JwtFilter authFilter() throws Exception {
+		final JwtFilter filter = new JwtFilter(PROTECTED_URLS, this.secretKey);
 		filter.setAuthenticationManager(authenticationManager());
 		return filter;
 	}

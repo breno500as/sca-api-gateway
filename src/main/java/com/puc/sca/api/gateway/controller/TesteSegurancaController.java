@@ -1,11 +1,9 @@
 package com.puc.sca.api.gateway.controller;
 
-import java.util.Collection;
-
 import javax.annotation.security.RolesAllowed;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,13 +20,13 @@ import com.puc.sca.api.gateway.entity.Usuario;
 @RequestMapping("teste")
 public class TesteSegurancaController {
 
-	@RolesAllowed("ADMIN")
-	@RequestMapping("metodo")
+	@RolesAllowed({"ROLE_ADMIN"})
+	@GetMapping("metodo")
 	public Usuario testeMetodoAutenticado(Authentication authentication) {
 		Usuario u = new Usuario();
-		final Collection<SimpleGrantedAuthority> autoridades = (Collection<SimpleGrantedAuthority>) authentication.getAuthorities();
+	 
 		final Usuario usuario = (Usuario) authentication.getPrincipal();
-		u.setId(1L);
+		 System.out.println(usuario);
 		return u;
 	}
 

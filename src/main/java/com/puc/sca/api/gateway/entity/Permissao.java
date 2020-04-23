@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Permissao implements Serializable {
 
@@ -16,6 +18,7 @@ public class Permissao implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonIgnore
 	private Long id;
 
 	@NotNull
@@ -23,6 +26,7 @@ public class Permissao implements Serializable {
 
 	@ManyToOne
 	@NotNull
+	@JsonIgnore
 	private Usuario usuario;
 
 	public Permissao() {
