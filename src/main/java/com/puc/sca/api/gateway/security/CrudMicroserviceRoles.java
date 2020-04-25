@@ -1,4 +1,4 @@
-package com.puc.sca.api.gateway.filter;
+package com.puc.sca.api.gateway.security;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 

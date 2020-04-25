@@ -1,4 +1,4 @@
-package com.puc.sca.api.gateway.filter;
+package com.puc.sca.api.gateway.security;
 
  
 
@@ -26,7 +26,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.puc.sca.api.gateway.entity.Permissao;
 import com.puc.sca.api.gateway.entity.Usuario;
-import com.puc.sca.api.gateway.util.JwtUtil;
 import com.puc.sca.integration.util.Constants;
 
 /**

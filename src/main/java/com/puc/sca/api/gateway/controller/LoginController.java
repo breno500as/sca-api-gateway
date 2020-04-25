@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.puc.sca.api.gateway.entity.Usuario;
 import com.puc.sca.api.gateway.repository.UsuarioRepository;
-import com.puc.sca.api.gateway.util.JwtUtil;
+import com.puc.sca.api.gateway.security.JwtUtil;
 
 /**
  * Rest controller responsável por gerenciar autenticação e autorização dos microserviços do sistema.

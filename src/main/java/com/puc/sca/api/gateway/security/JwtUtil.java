@@ -1,4 +1,4 @@
-package com.puc.sca.api.gateway.util;
+package com.puc.sca.api.gateway.security;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.puc.sca.api.gateway.filter;
+package com.puc.sca.api.gateway.security;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 

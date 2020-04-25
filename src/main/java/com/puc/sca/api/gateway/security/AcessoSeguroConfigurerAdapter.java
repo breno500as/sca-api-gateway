@@ -1,4 +1,4 @@
-package com.puc.sca.api.gateway.filter;
+package com.puc.sca.api.gateway.security;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
@@ -29,7 +29,7 @@ import com.puc.sca.integration.util.Constants;
  */
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(jsr250Enabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter {
 	
 	private static final String PUBLIC_PATH = "/public/**";
