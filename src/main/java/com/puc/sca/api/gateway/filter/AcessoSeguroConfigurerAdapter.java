@@ -45,9 +45,9 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 	protected void configure(HttpSecurity http) throws Exception {
 
 		   http
+		    .cors()
+			.and()
 			.csrf()
-			.disable()
-			.cors()
 			.disable()
 			.sessionManagement()
 		    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
