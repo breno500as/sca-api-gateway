@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.puc.sca.api.gateway.entity.Usuario;
 
 @Repository
-@RepositoryRestResource(path = "public/usuarios", collectionResourceRel = "usuarios")
+@RepositoryRestResource(path = "usuarios", collectionResourceRel = "usuarios")
 public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 
 	public Usuario findByEmailAndSenha(String email, String senha);
