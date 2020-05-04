@@ -20,7 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.puc.sca.integration.util.Constants;
+import com.puc.util.pojo.Constants;
 
 /**
  * Configurações do spring security, tais como url protegidas, cors, filtros de segurança, etc.

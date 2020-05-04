@@ -84,13 +84,11 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<!--   Mover jar para um repositório local (nexus por exemplo)
-		<dependency>
-			<groupId>com.puc.sca.integration.util</groupId>
-			<artifactId>sca-integration-util</artifactId>
-			<version>1.0.0</version>
+	    <dependency>
+			<groupId>com.puc.sca.util</groupId>
+			<artifactId>sca-util</artifactId>
+			<version>1.0.2</version>
 		</dependency>
-		-->
 
 		<!-- Início - Segurança -->
 		<dependency>
