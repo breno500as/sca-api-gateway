@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.6.RELEASE</version>
+		<version>2.2.7.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.puc.sca.api.gateway</groupId>
@@ -87,7 +87,7 @@
 	    <dependency>
 			<groupId>com.puc.sca.util</groupId>
 			<artifactId>sca-util</artifactId>
-			<version>1.0.3</version>
+			<version>1.0.4</version>
 		</dependency>
 
 		<!-- Início - Segurança -->
@@ -122,36 +122,22 @@
 	</dependencyManagement>
 	
 	  <build>
-      <plugins>
-       <plugin>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-maven-plugin</artifactId>
-    <configuration>
-        <mainClass>com.puc.sca.api.gateway.ScaApiGatewayApplication</mainClass>
-    </configuration>
-    <executions>
-        <execution>
-            <goals>
-                <goal>repackage</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-      </plugins>
-    </build>
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+			<configuration>
+				<mainClass>com.puc.sca.api.gateway.ScaApiGatewayApplication</mainClass>
+			</configuration>
+			<executions>
+				<execution>
+					<goals>
+						<goal>repackage</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>
 	
-	<repositories>
-	<repository>
-		<id>sca-repository</id>
-		<name>sca-repository</name>
-		<url>https://github.com/breno500as/sca-repository/tree/master/</url>
-		<releases>
-            <checksumPolicy>ignore</checksumPolicy>
-          </releases>
-          <snapshots>
-            <checksumPolicy>ignore</checksumPolicy>
-          </snapshots>
-	</repository>
-  </repositories>
-
 </project>
