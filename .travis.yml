@@ -1,0 +1,28 @@
+language: java
+jdk:
+  - oraclejdk11
+cache:
+  directories:
+  - "$HOME/.cache"
+script:
+  - cp .travis.settings.xml $HOME/.m2/settings.xml
+  - mvn clean -Dgithub.repository.server.username=$GITHUB_REPOSITORY_SERVER_USERNAME -Dgithub.repository.server.password=$GITHUB_REPOSITORY_SERVER_PASSWORD -P github -DskipTests package
+  - docker-compose build
+install: skip
+before_deploy:
+  # install heroku CLI
+  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
+  - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+  - echo $HEROKU_PASSWORD | docker login --username $HEROKU_USERNAME --password-stdin registry.heroku.com
+deploy:
+  provider: script
+  script:
+    docker tag $HEROKU_APP_NAME $DOCKER_USERNAME/$HEROKU_APP_NAME:$TRAVIS_JOB_ID;
+    docker tag $HEROKU_APP_NAME registry.heroku.com/$HEROKU_APP_NAME/web;
+    docker push $DOCKER_USERNAME/$HEROKU_APP_NAME:$TRAVIS_JOB_ID;
+    docker push registry.heroku.com/$HEROKU_APP_NAME/web;
+    heroku container:release web --app $HEROKU_APP_NAME
+  on:
+    brach: master
+notifications:
+  email: false
