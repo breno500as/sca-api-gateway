@@ -57,7 +57,7 @@ public class AcessoSeguroConfigurerAdapter extends WebSecurityConfigurerAdapter 
 			.and()
             .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
-	        .antMatchers(PUBLIC_PATH)
+	        .antMatchers(PUBLIC_PATH, "/api-docs/**", "/swagger-ui.html**")
 	        .permitAll();
 		    new CrudMicroserviceRoles().configureSecurity(http);
 		    new MonitorMicroserviceRoles().configureSecurity(http);
