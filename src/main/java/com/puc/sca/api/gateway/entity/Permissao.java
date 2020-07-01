@@ -2,38 +2,40 @@ package com.puc.sca.api.gateway.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-public class Permissao implements Serializable {
+@Table(name = "permission")
+public class Permissao implements GrantedAuthority, Serializable {
 
-	private static final long serialVersionUID = 7599061299091714595L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5905843720289208208L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonIgnore
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 
-	@NotNull
-	private String descricao;
+	@Column(name = "description")
+	private String description;
 
-	@ManyToOne
-	@NotNull
-	@JsonIgnore
-	private Usuario usuario;
-
-	public Permissao() {
+	@Column(name = "authority")
+	private String authority;
+	
+	public Permissao() {	
 	}
-
-	public Permissao(String descricao) {
-		setDescricao(descricao);
+	
+	public Permissao(String description) {
+		this.description = description;
 	}
 
 	public Long getId() {
@@ -44,20 +46,20 @@ public class Permissao implements Serializable {
 		this.id = id;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public String getAuthority() {
+		return authority;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 
 }

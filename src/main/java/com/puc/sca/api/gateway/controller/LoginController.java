@@ -36,7 +36,7 @@ public class LoginController {
 	@PostMapping
 	public @ResponseBody Usuario login(@RequestBody Usuario usuarioPost) {
 
-		final Usuario usuarioAutenticado = this.usuarioRepository.findByEmailAndSenha(usuarioPost.getEmail(),usuarioPost.getSenha());
+		final Usuario usuarioAutenticado = this.usuarioRepository.findByEmailAndPassword(usuarioPost.getEmail(),usuarioPost.getPassword());
 
 		if (usuarioAutenticado == null) {
 			 throw new BadCredentialsException("usuário não encontrado");
@@ -44,15 +44,15 @@ public class LoginController {
 
 		List<String> permissoes = null;
 		
-		if (usuarioAutenticado.getPermissoes() != null) {
-			permissoes = usuarioAutenticado.getPermissoes().stream().map(permissao -> permissao.getDescricao())
+		if (usuarioAutenticado.getAuthorities() != null) {
+			permissoes = usuarioAutenticado.getAuthorities().stream().map(permissao -> permissao.getDescription())
 					.collect(Collectors.toList());
 			
 		}
  		 
-		final String token = JwtUtil.buildAuthToken(usuarioAutenticado.getId(), usuarioAutenticado.getNome(), usuarioAutenticado.getEmail(), permissoes, this.secretKey);
+		final String token = JwtUtil.buildAuthToken(usuarioAutenticado.getId(), usuarioAutenticado.getUsername(), usuarioAutenticado.getEmail(), permissoes, this.secretKey);
 		usuarioAutenticado.setToken(token);
-		usuarioAutenticado.setSenha(null);
+		usuarioAutenticado.setPassword(null);
 		return usuarioAutenticado;
 	}
 

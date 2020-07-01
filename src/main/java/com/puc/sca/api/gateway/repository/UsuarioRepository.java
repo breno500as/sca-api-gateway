@@ -10,6 +10,6 @@ import com.puc.sca.api.gateway.entity.Usuario;
 @RepositoryRestResource(path = "usuarios", collectionResourceRel = "usuarios")
 public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 
-	public Usuario findByEmailAndSenha(String email, String senha);
+	public Usuario findByEmailAndPassword(String email, String password);
 
 }

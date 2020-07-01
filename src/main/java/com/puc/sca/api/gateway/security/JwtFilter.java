@@ -73,7 +73,7 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
 	
 		final Usuario usuario = new Usuario();
 		usuario.setId(Long.parseLong(dadosUsuario.get(0)));
-		usuario.setNome(dadosUsuario.get(1));
+		usuario.setUsername(dadosUsuario.get(1));
 		usuario.setEmail(dadosUsuario.get(2));
 			
 		Collection<SimpleGrantedAuthority> authorities = null;
@@ -82,7 +82,7 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
 			authorities = new ArrayList<SimpleGrantedAuthority>();
 			String roles = dadosUsuario.get(3);
 			authorities.add(new SimpleGrantedAuthority(roles));
-			usuario.setPermissoes(Arrays.asList(roles.split(",")).stream().map(s -> new Permissao(s)).collect(Collectors.toList()));
+			usuario.setAuthorities(Arrays.asList(roles.split(",")).stream().map(s -> new Permissao(s)).collect(Collectors.toList()));
 		}
 	
 		return  new UsernamePasswordAuthenticationToken(usuario, token, authorities);

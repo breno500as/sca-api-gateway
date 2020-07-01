@@ -53,7 +53,7 @@ public class AuthorizationHeaderZuulFilter extends ZuulFilter {
 				}
 
 				newParameterMap.put(Constants.ID_USUARIO_LOGADO, Arrays.asList(usuario.getId().toString()));
-				newParameterMap.put(Constants.NOME_USUARIO_LOGADO, Arrays.asList(usuario.getNome()));
+				newParameterMap.put(Constants.NOME_USUARIO_LOGADO, Arrays.asList(usuario.getUsername()));
 				newParameterMap.put(Constants.EMAIL_USUARIO_LOGADO, Arrays.asList(usuario.getEmail()));
 
 				if (authentication.getAuthorities() != null) {
