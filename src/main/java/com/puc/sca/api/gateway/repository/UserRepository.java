@@ -4,12 +4,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
-import com.puc.sca.api.gateway.entity.Usuario;
+import com.puc.sca.api.gateway.entity.User;
 
 @Repository
 @RepositoryRestResource(path = "usuarios", collectionResourceRel = "usuarios")
-public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
-	public Usuario findByEmailAndPassword(String email, String password);
+	public User findByUsername(String username);
 
 }

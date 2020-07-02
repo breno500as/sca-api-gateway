@@ -14,18 +14,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import com.puc.sca.api.gateway.entity.Permissao;
-import com.puc.sca.api.gateway.entity.Usuario;
+import com.puc.sca.api.gateway.entity.Role;
+import com.puc.sca.api.gateway.entity.User;
+import com.puc.sca.api.gateway.service.UserService;
 import com.puc.util.pojo.Constants;
 
 /**
@@ -39,6 +41,9 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
 	public static final String BEARER = "Bearer";
 	
 	public String secretKey;
+	
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * Construtor.
@@ -58,8 +63,7 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
 	 */
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws AuthenticationException, IOException, ServletException {
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
 		final String authorizationHeaderToken = request.getHeader(Constants.AUTHORIZATION_HEADER);
 
@@ -70,22 +74,10 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
 		final String token = authorizationHeaderToken.replaceAll(BEARER, "").trim();
 		
 		final List<String> dadosUsuario = JwtUtil.getDadosUsuarioToken(token, this.secretKey);
-	
-		final Usuario usuario = new Usuario();
-		usuario.setId(Long.parseLong(dadosUsuario.get(0)));
-		usuario.setUsername(dadosUsuario.get(1));
-		usuario.setEmail(dadosUsuario.get(2));
-			
-		Collection<SimpleGrantedAuthority> authorities = null;
-	
-		if (dadosUsuario.size() > 2) {
-			authorities = new ArrayList<SimpleGrantedAuthority>();
-			String roles = dadosUsuario.get(3);
-			authorities.add(new SimpleGrantedAuthority(roles));
-			usuario.setAuthorities(Arrays.asList(roles.split(",")).stream().map(s -> new Permissao(s)).collect(Collectors.toList()));
-		}
-	
-		return  new UsernamePasswordAuthenticationToken(usuario, token, authorities);
+		
+		final User user = (User) this.userService.loadUserByUsername(dadosUsuario.get(1));
+		
+		return  new UsernamePasswordAuthenticationToken(user, token, user.getAuthorities());
 		
 	}
 

@@ -18,7 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
-import com.puc.sca.api.gateway.entity.Usuario;
+import com.puc.sca.api.gateway.entity.User;
 import com.puc.util.pojo.Constants;
 
 
@@ -45,7 +45,7 @@ public class AuthorizationHeaderZuulFilter extends ZuulFilter {
 		 
    		 
 			   // Passando o usuário e permissões para aplicações hospedadas no datacenter interno
-				Usuario usuario = (Usuario) u.getPrincipal();
+				User usuario = (User) u.getPrincipal();
 				Map<String, List<String>> newParameterMap = ctx.getRequestQueryParams();
 
 				if (newParameterMap == null) {

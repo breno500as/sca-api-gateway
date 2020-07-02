@@ -1,9 +1,12 @@
 package com.puc.sca.api.gateway.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,20 +19,21 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
-public class Usuario implements UserDetails, Serializable {
+public class User implements UserDetails, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6470359697871665629L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "user_id")
 	private Long id;
 
 	@Column(name = "user_name", unique = true)
@@ -56,19 +60,18 @@ public class Usuario implements UserDetails, Serializable {
 	@Column(name = "email")
 	private String email;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_permission", joinColumns = { @JoinColumn(name = "id_user") }, inverseJoinColumns = {
-			@JoinColumn(name = "id_permission") })
-	private List<Permissao> authorities;
-	
-	public Usuario() {
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
+
+	public User() {
 	}
-	
-	public Usuario(Long id, String username) {
+
+	public User(Long id, String username) {
 		this.id = id;
 		this.username = username;
 	}
-	
+
 	@Transient
 	private String token;
 
@@ -142,13 +145,12 @@ public class Usuario implements UserDetails, Serializable {
 		this.enabled = enabled;
 	}
 
-	@Override
-	public Collection<Permissao> getAuthorities() {
-		return this.authorities;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setAuthorities(List<Permissao> authorities) {
-		this.authorities = authorities;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public String getEmail() {
@@ -158,13 +160,26 @@ public class Usuario implements UserDetails, Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getToken() {
 		return token;
 	}
-	
+
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	@Override
+	@JsonIgnore
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+		for (Role role : this.getRoles()) {
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
+		}
+
+		return authorities;
 	}
 
 }

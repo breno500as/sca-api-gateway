@@ -9,28 +9,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.puc.sca.api.gateway.entity.Usuario;
-import com.puc.sca.api.gateway.repository.UsuarioRepository;
+import com.puc.sca.api.gateway.entity.User;
+import com.puc.sca.api.gateway.repository.UserRepository;
 
 @RestController
-public class UsuarioController {
+public class UserController {
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UserRepository usuarioRepository;
 
 	@GetMapping("public/usuarios")
 	@HystrixCommand(fallbackMethod = "reliableUsers")
-	public Iterable<Usuario> recuperaUsuarios() {
+	public Iterable<User> recuperaUsuarios() {
 		return this.usuarioRepository.findAll();
 	}
 
-	public Iterable<Usuario> reliableUsers() {
-		return Arrays.asList(new Usuario(1L, "BRENO PEREIRA"));
+	public Iterable<User> reliableUsers() {
+		return Arrays.asList(new User(1L, "BRENO PEREIRA"));
 	}
 
 	@GetMapping("usuarios/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Usuario findById(@PathVariable(value = "id") Long id) {
+	public User findById(@PathVariable(value = "id") Long id) {
 		return this.usuarioRepository.findById(id).get();
 	}
 
