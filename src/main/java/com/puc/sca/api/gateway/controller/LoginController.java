@@ -41,7 +41,7 @@ public class LoginController {
 	public @ResponseBody User login(@RequestBody User usuarioPost) {
 
 		try {
-			final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioPost.getUsername(), usuarioPost.getPassword()));
+			final Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioPost.getUsername(), usuarioPost.getPassword()));
 			final User usuarioAutenticado = (User) authentication.getPrincipal();
 			
 			List<String> permissoes = null;
