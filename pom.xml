@@ -110,7 +110,7 @@
 	    <dependency>
 			<groupId>com.puc.sca.util</groupId>
 			<artifactId>sca-util</artifactId>
-			<version>1.0.10</version>
+			<version>1.0.11</version>
 		</dependency>
 
 		<!-- Início - Segurança -->

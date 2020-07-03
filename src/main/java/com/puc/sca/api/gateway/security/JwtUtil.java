@@ -15,7 +15,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.puc.util.pojo.Constants;
+import com.puc.sca.util.pojo.Constants;
 
 /**
  * Utilitário para geração do web token.

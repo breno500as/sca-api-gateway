@@ -19,7 +19,7 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.puc.sca.api.gateway.entity.User;
-import com.puc.util.pojo.Constants;
+import com.puc.sca.util.pojo.Constants;
 
 
 /**

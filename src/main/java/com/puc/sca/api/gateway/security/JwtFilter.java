@@ -21,7 +21,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.puc.sca.api.gateway.entity.User;
 import com.puc.sca.api.gateway.service.UserService;
-import com.puc.util.pojo.Constants;
+import com.puc.sca.util.pojo.Constants;
 
 /**
  * Filtro responsável por verificar se o web token foi repassado nas requisições privadas.
