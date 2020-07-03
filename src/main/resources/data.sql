@@ -1,11 +1,10 @@
 delete from users_roles;
 delete from users;
 delete from roles;
-INSERT INTO users (user_id, user_name, password, email) VALUES (1, 'ADMIN', '$2a$10$5G8zCENFxEA3F.y5P5xcV.ivgZzEuSxO9eqMCp1ouoIODnCL/h64y', 'admin@gmail.com');
-INSERT INTO users (user_id, user_name, password, email) VALUES (2, 'BRENO PEREIRA', 'c84ff789436a5d7f0bf8504bb6b69d83', 'teste@gmail.com');
-INSERT INTO users (user_id, user_name, password, email) VALUES (3, 'MARISA MONTE', 'eacd672d120794985928af70c63da849', 'mmonte@yahoo.com');
-INSERT INTO users (user_id, user_name, password, email) VALUES (4, 'TIAGO SILVA', 'c79924ec82f57b59c26cf5c1e2b8b6ca', 'tiagosilva1985@gmail.com');
-INSERT INTO users (user_id, user_name, password, email) VALUES (5, 'NOVAK DJOKOVIC', 'b2375cf689675824504b2df74434037e', 'novak@gmail.com');
+INSERT INTO users (user_id, user_name, password, email) VALUES (1, 'admin', '$2a$10$O/lbct/ufcCfg1OqVKswcehy4ESdchsR.Ih8ddyV1dE5EXWXlV262', 'admin@gmail.com');
+INSERT INTO users (user_id, user_name, password, email) VALUES (2, 'breno', '$2a$10$6Xke/4jI3EBvKgaSRLWc8.BMY2oiaZOTh/DMI.bjdL7lbPy/wZi1K', 'teste@gmail.com');
+INSERT INTO users (user_id, user_name, password, email) VALUES (3, 'monte', '$2a$10$lE9hK6MN.50rOWCIzg5ZEeCEGSUfCAVwx2.vAyCWj761.UzmqkBJS', 'mmonte@yahoo.com');
+INSERT INTO users (user_id, user_name, password, email) VALUES (4, 'novak.djokovic', '$2a$10$1XVzlMtF01aOLSy0JNciEOJYs7XunXfmJMFmfyDhduq/shmeAfuX2', 'novak@gmail.com');
 INSERT INTO roles (role_id, name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO roles (role_id, name) VALUES (2, 'ROLE_OPERADOR');
 INSERT INTO roles (role_id, name) VALUES (3, 'ROLE_TERCEIRIZADO');
