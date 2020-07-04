@@ -41,7 +41,7 @@ public class User implements UserDetails, Serializable {
 
 	@Column(name = "full_name")
 	private String fullname;
-
+	
 	@Column(name = "password")
 	private String password;
 

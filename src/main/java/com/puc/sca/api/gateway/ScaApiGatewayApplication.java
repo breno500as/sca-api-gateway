@@ -6,8 +6,9 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
-import com.puc.sca.api.gateway.security.AuthorizationHeaderZuulFilter;
+import com.puc.sca.api.gateway.security.ScaApiGatewayZuulFilter;
 
 
 
@@ -22,8 +23,8 @@ public class ScaApiGatewayApplication {
 	}
 
 	@Bean
-	public AuthorizationHeaderZuulFilter authHeaderFilter() {
-		return new AuthorizationHeaderZuulFilter();
+	public ScaApiGatewayZuulFilter authHeaderFilter() {
+		return new ScaApiGatewayZuulFilter();
 	}
-
+ 
 }

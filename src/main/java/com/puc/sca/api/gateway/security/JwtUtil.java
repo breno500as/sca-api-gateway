@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
 import com.auth0.jwt.JWTVerifier;
@@ -15,6 +18,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.puc.sca.api.gateway.exception.InvalidTokenJwtException;
 import com.puc.sca.util.pojo.Constants;
 
 /**
@@ -61,9 +65,9 @@ public final class JwtUtil {
 			return jwtTokenBuilder.sign(algorithm);
 
 		} catch (final IllegalArgumentException e) {
-			throw new RuntimeException("Erro ao criar o token de autorização");
+			throw new InvalidTokenJwtException("Erro ao criar o token de autorização");
 		} catch (final JWTCreationException e) {
-			throw new RuntimeException("Erro jwt ao criar o token de autorização");
+			throw new InvalidTokenJwtException("Erro jwt ao criar o token de autorização");
 		}
 	}
 
@@ -84,11 +88,11 @@ public final class JwtUtil {
 			return verifier.verify(authorizationHeaderToken);
 
 		} catch (final IllegalArgumentException e) {
-			throw new RuntimeException("Erro ao verificar o token de autorização");
+			throw new InvalidTokenJwtException("Erro ao verificar o token de autorização");
 		} catch (final TokenExpiredException e) {
-			throw new RuntimeException("Token expirado");
+			throw new InvalidTokenJwtException("Token expirado");
 		} catch (final JWTVerificationException e) {
-			throw new RuntimeException("Token inválido");
+			throw new InvalidTokenJwtException("Token inválido");
 		}
 	}
 
@@ -108,7 +112,7 @@ public final class JwtUtil {
 
 		// Id do usuário é obrigatório no token
 		if (claimIdUsuario == null) {
-			throw new RuntimeException("Usuário não encontrado ou inválido.");
+			throw new ResourceNotFoundException("Usuário não encontrado ou inválido.");
 		}
 
 		final List<String> dadosUsuario = new ArrayList<String>();

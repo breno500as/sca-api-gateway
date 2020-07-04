@@ -29,7 +29,7 @@ import com.puc.sca.util.pojo.Constants;
  *
  */
 
-public class JwtFilter extends AbstractAuthenticationProcessingFilter {
+public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
 	public static final String BEARER = "Bearer";
 	
@@ -45,7 +45,7 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
 	 */
  
 
-	public JwtFilter(final RequestMatcher requiresAuth, final String secretKey) {
+	public JwtAuthenticationFilter(final RequestMatcher requiresAuth, final String secretKey) {
 		super(requiresAuth);
 		this.secretKey = secretKey;
 
@@ -64,7 +64,7 @@ public class JwtFilter extends AbstractAuthenticationProcessingFilter {
 			throw new BadCredentialsException("Token de autenticação é obrigatório");
 		}
 
-		final String token = authorizationHeaderToken.replaceAll(BEARER, "").trim();
+		final String token = authorizationHeaderToken.replace(BEARER, "").trim();
 		
 		final List<String> dadosUsuario = JwtUtil.getDadosUsuarioToken(token, this.secretKey);
 		

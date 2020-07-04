@@ -28,7 +28,7 @@ import com.puc.sca.util.pojo.Constants;
  *
  */
 
-public class AuthorizationHeaderZuulFilter extends ZuulFilter {
+public class ScaApiGatewayZuulFilter extends ZuulFilter {
 
 	@Override
 	public boolean shouldFilter() {

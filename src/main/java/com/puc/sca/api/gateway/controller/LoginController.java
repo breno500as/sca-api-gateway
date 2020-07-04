@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -38,7 +40,8 @@ public class LoginController {
 	private AuthenticationManager authenticationManager;
 
 	@PostMapping
-	public @ResponseBody User login(@RequestBody User usuarioPost) {
+	@ResponseBody
+	public  ResponseEntity<User> login(@RequestBody User usuarioPost) {
 
 		try {
 			final Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioPost.getUsername(), usuarioPost.getPassword()));
@@ -54,11 +57,10 @@ public class LoginController {
 			usuarioAutenticado.setToken(token);
 			usuarioAutenticado.setPassword(null);
 
-			return usuarioAutenticado;
+			return ResponseEntity.ok(usuarioAutenticado);
 
 		} catch (AuthenticationException e) {
-			// TODO: handle exception
-			return null;
+			  throw new BadCredentialsException("Ocorreu um erro ao efetuar o login do usuário:" + e.getMessage(), e);
 		}
 
 	}
