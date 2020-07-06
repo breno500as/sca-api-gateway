@@ -25,8 +25,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		final ExceptionResponse exceptionResponse = 
 				new ExceptionResponse(
 						new Date(),
-						ex.getMessage(),
-						request.getDescription(false));
+						request.getDescription(false),
+						ex.getMessage());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -36,8 +36,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		final ExceptionResponse exceptionResponse = 
 				new ExceptionResponse(
 						new Date(),
-						ex.getMessage(),
-						request.getDescription(false));
+						request.getDescription(false),
+						ex.getMessage());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
 	}
 	
@@ -46,8 +46,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		final ExceptionResponse exceptionResponse = 
 				new ExceptionResponse(
 						new Date(),
-						ex.getMessage(),
-						request.getDescription(false));
+						request.getDescription(false),
+						ex.getMessage());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
 	}
 	
@@ -58,8 +58,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		final ExceptionResponse exceptionResponse = 
 				new ExceptionResponse(
 						new Date(),
-						ex.getMessage(),
-						request.getDescription(false));
+						request.getDescription(false),
+						ex.getMessage());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
 	
