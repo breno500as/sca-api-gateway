@@ -1,6 +1,7 @@
 package com.puc.sca.api.gateway.exception.handler;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -24,7 +25,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request) {
 		final ExceptionResponse exceptionResponse = 
 				new ExceptionResponse(
-						new Date(),
+                        LocalDateTime.now(),
 						request.getDescription(false),
 						ex.getMessage());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -35,7 +36,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	public final ResponseEntity<ExceptionResponse> handleAccessDeniedExceptions(AccessDeniedException ex, WebRequest request) {
 		final ExceptionResponse exceptionResponse = 
 				new ExceptionResponse(
-						new Date(),
+						LocalDateTime.now(),
 						request.getDescription(false),
 						ex.getMessage());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
@@ -45,7 +46,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	public final ResponseEntity<ExceptionResponse> handleAuthorizationExceptions(BadCredentialsException ex, WebRequest request) {
 		final ExceptionResponse exceptionResponse = 
 				new ExceptionResponse(
-						new Date(),
+						LocalDateTime.now(),
 						request.getDescription(false),
 						ex.getMessage());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
@@ -57,7 +58,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	public final ResponseEntity<ExceptionResponse> handleResourceBadRequestExceptions(ResourceNotFoundException ex, WebRequest request) {
 		final ExceptionResponse exceptionResponse = 
 				new ExceptionResponse(
-						new Date(),
+						LocalDateTime.now(),
 						request.getDescription(false),
 						ex.getMessage());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);

@@ -2,7 +2,7 @@ package com.puc.sca.api.gateway.exception.handler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ public class JwtAuthenticationFailureHandler implements AuthenticationFailureHan
 
 		final PrintWriter out = response.getWriter();
 
-		final ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), exception.getMessage(),
+		final ExceptionResponse exceptionResponse = new ExceptionResponse(LocalDateTime.now(), exception.getMessage(),
 				request.getRequestURI());
 
 		final String jsonError = objectMapper.writeValueAsString(exceptionResponse);
