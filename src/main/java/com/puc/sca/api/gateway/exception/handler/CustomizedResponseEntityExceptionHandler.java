@@ -2,7 +2,6 @@ package com.puc.sca.api.gateway.exception.handler;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
