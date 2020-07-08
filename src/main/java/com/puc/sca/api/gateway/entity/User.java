@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User implements UserDetails, Serializable {
 
 	private static final long serialVersionUID = -6470359697871665629L;
+	
+	public static final String NAO_ENCONTRADO = "Usuário não encontrado!";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

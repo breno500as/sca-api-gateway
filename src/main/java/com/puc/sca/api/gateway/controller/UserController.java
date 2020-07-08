@@ -33,7 +33,7 @@ public class UserController {
 	@GetMapping("usuarios/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<User> findById(@PathVariable(value = "id") Long id) {
-		final User usuario = this.usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+		final User usuario = this.usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(User.NAO_ENCONTRADO));
 		return ResponseEntity.ok(usuario);
 	}
 
