@@ -3,8 +3,11 @@ package com.puc.sca.api.gateway.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -41,7 +44,7 @@ public class LoginController {
 
 	@PostMapping
 	@ResponseBody
-	public  ResponseEntity<User> login(@RequestBody User usuarioPost) {
+	public  ResponseEntity<User> login(@RequestBody @Valid User usuarioPost) {
 
 		try {
 			final Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioPost.getUsername(), usuarioPost.getPassword()));
@@ -57,7 +60,7 @@ public class LoginController {
 			usuarioAutenticado.setToken(token);
 			usuarioAutenticado.setPassword(null);
 
-			return ResponseEntity.ok(usuarioAutenticado);
+			return ResponseEntity.status(HttpStatus.CREATED).body(usuarioAutenticado);
 
 		} catch (AuthenticationException e) {
 			  throw new BadCredentialsException("Ocorreu um erro ao efetuar o login do usuário:" + e.getMessage(), e);

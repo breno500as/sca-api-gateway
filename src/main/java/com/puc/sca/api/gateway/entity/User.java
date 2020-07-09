@@ -18,6 +18,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,12 +41,15 @@ public class User implements UserDetails, Serializable {
 	@Column(name = "user_id")
 	private Long id;
 
+	@NotNull(message = "Usuário é obrigatório")
 	@Column(name = "user_name", unique = true)
 	private String username;
 
 	@Column(name = "full_name")
 	private String fullname;
 	
+	@NotNull(message = "Password é obrigatório")
+	@Size(min = 6, max = 12, message = "Password deve estar entre 6 e 12")
 	@Column(name = "password")
 	private String password;
 
@@ -59,6 +65,7 @@ public class User implements UserDetails, Serializable {
 	@Column(name = "enabled")
 	private boolean enabled;
 
+	@Email(message = "Email inválido")
 	@Column(name = "email")
 	private String email;
 
