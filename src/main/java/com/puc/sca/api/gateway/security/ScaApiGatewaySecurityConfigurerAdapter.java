@@ -3,6 +3,7 @@ package com.puc.sca.api.gateway.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,6 +32,7 @@ import com.puc.sca.util.pojo.Constants;
  *
  */
 
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class ScaApiGatewaySecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
@@ -76,6 +78,11 @@ public class ScaApiGatewaySecurityConfigurerAdapter extends WebSecurityConfigure
 		jwtFilter.setAuthenticationFailureHandler(new JwtAuthenticationFailureHandler(this.objectMapper));
 		return jwtFilter;
 	}
+	
+	/**
+	 * Expõe o autentication manager como um Bean para ser injetado no momento de fazer o login e realizar
+	 * o processo de autenticação.
+	 */
 	
 	@Bean
 	@Override
