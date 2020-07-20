@@ -28,6 +28,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+/**
+ * Spring security
+ * @author breno
+ *
+ */
 @Entity
 @Table(name = "users")
 public class User implements UserDetails, Serializable {

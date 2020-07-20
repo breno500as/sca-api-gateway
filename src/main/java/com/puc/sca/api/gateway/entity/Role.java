@@ -9,6 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Spring security
+ * @author breno
+ *
+ */
+
 @Entity
 @Table(name = "roles")
 public class Role implements Serializable {
