@@ -63,7 +63,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 						LocalDateTime.now(),
 						request.getDescription(false),
 						ex.getMessage());
-		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 	
 	
