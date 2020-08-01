@@ -14,6 +14,11 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.puc.sca.util.exception.ExceptionResponse;
 
+/**
+ * Handler para falha de autenticação
+ * @author breno
+ *
+ */
 public class JwtAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 	private ObjectMapper objectMapper;
