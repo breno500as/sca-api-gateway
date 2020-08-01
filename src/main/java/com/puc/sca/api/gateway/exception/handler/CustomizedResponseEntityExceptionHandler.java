@@ -69,6 +69,9 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	
 	/**
 	 * Handle de exceções do Bean Validation.
+	 * O codigo de resposta HTTP 422 Unprocessable Entity indica que o servidor entende o tipo de conteúdo da entidade da requisição, e
+	 * a sintaxe da requisição esta correta, mas não foi possível processar as instruções presentes.
+	 * https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status/422
 	 */
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
