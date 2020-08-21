@@ -56,9 +56,9 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>prd-amazon</id>
+			<id>prd-aws</id>
 			<properties>
-				<activatedProperties>prd-amazon</activatedProperties>
+				<activatedProperties>prd-aws</activatedProperties>
 			</properties>
 		</profile>
 		<profile>
