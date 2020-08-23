@@ -5,8 +5,7 @@ cache:
   directories:
   - "$HOME/.cache"
 script:
-  - cp .travis.settings.xml $HOME/.m2/settings.xml
-  - mvn clean -Dgithub.repository.server.username=$GITHUB_REPOSITORY_SERVER_USERNAME -Dgithub.repository.server.password=$GITHUB_REPOSITORY_SERVER_PASSWORD -P github -DskipTests package
+  - mvn clean -s .m2/settings.xml -Dmaven.repo.local=.m2/repository -Dgithub.repository.server.username=$GITHUB_REPOSITORY_SERVER_USERNAME -Dgithub.repository.server.password=$GITHUB_REPOSITORY_SERVER_PASSWORD -P github -DskipTests package
   - docker-compose build
 install: skip
 before_deploy:
