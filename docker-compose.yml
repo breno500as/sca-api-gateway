@@ -18,7 +18,7 @@ services:
     image: sca-api-gateway
     ports:
       #As portas abaixo serão ignoradas pelo heroku, que obriga utilizar a 
-      #porta que ele envia via variável de ambiente:$PORT
+      #porta que ele envia via variável de ambiente: $PORT
       #Essa porta deve ser configurada apenas no arquivo application.properties 
       #da aplicação, ou seja, em nenhum Dockerfile ou docker-compose
       - '8080:8080'
