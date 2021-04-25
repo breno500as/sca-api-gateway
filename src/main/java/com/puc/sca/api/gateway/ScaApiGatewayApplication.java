@@ -11,6 +11,7 @@ import com.puc.sca.api.gateway.security.ScaApiGatewayZuulFilter;
 
 
 
+
 @SpringBootApplication
 @EnableZuulProxy
 @EnableDiscoveryClient
